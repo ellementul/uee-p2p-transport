@@ -1,0 +1,23 @@
+{
+  "name": "@ellementul/uee-ws-transport",
+  "version": "0.0.7",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ellementul/uee-ws-transport.git"
+  },
+  "author": "Ellementul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ellementul/uee-ws-transport/issues"
+  },
+  "homepage": "https://github.com/ellementul/uee-ws-transport#readme",
+  "dependencies": {
+    "@ellementul/uee": "^1.0.1",
+    "ws": "^8.11.0"
+  }
+}
