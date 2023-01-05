@@ -25,16 +25,21 @@ class WsTransport extends AbstractTransport {
   clearQueue() {
     const queue = this._messages_queue
     this._messages_queue = []
-    queue.forEach(message => this.send(message))
+
+    if(queue.length > 0)
+      queue.forEach(message => this.send(message))
   }
   send (message) {
     if(this._socket) {
       this.clearQueue()
-      this._socket.send(JSON.stringify(message))
+      this._send(message)
     }
     else {
-      this._messages_queue.push(JSON.stringify(message))
+      this._messages_queue.push(message)
     }
+  }
+  _send (message) {
+    this._socket.send(JSON.stringify(message))
   }
   message (data) {
     this._callback(JSON.parse(data))
