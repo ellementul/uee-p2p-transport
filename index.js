@@ -1,4 +1,4 @@
-const { AbstractTransport } = require('@ellementul/uee')
+const { AbstractTransport } = require('@ellementul/uee-core')
 const WebSocket = require('ws')
 
 class WsTransport extends AbstractTransport {
