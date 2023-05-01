@@ -21,7 +21,6 @@
     "ws": "^8.11.0"
   },
   "devDependencies": {
-    "jest": "^29.3.1",
-    "@ellementul/uee-ws-server": "^0.8.1"
+    "jest": "^29.3.1"
   }
 }
