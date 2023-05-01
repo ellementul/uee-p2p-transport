@@ -1,5 +1,4 @@
 const { AbstractTransport } = require('@ellementul/uee-core')
-const WebSocket = require('ws')
 
 class WsTransport extends AbstractTransport {
   constructor (url) {
@@ -14,9 +13,8 @@ class WsTransport extends AbstractTransport {
   }
   start() {
     const socket = new WebSocket(this._url)
-    socket.on('open', () => this.open(socket))
-    socket.on('message', data => this.message(data))
-    socket.on('close', () => this.close())
+    socket.onopen = () => this.open(socket)
+    socket.onmessage = data => this.message(data)
   }
   open(socket) {
     this._socket = socket
@@ -45,7 +43,7 @@ class WsTransport extends AbstractTransport {
     this._callback(JSON.parse(data))
   }
   close () {
-    this._socket = null
+    this._socket.close()
   }
 }
 
