@@ -1,6 +1,7 @@
 const { AbstractTransport } = require('@ellementul/uee-core')
+const { Peer } = require('peerjs')
 
-class WsTransport extends AbstractTransport {
+class PeerTransport extends AbstractTransport {
   constructor (url) {
     super()
 
@@ -12,13 +13,14 @@ class WsTransport extends AbstractTransport {
     this.start()
   }
   start() {
-    const socket = new WebSocket(this._url)
-    socket.onopen = () => this.open(socket)
-    socket.onmessage = event => this.message(event.data)
+    const peer = new Peer(this._url)
+    peer.on('open', () => this.open(peer))
+    peer.on('data', data => this.message(data))
   }
-  open(socket) {
-    this._socket = socket
+  open(peer) {
+    this._peer = peer
     this.clearQueue()
+    console.log('Peer id:', peer.id)
   }
   clearQueue() {
     const queue = this._messages_queue
@@ -28,7 +30,7 @@ class WsTransport extends AbstractTransport {
       queue.forEach(message => this.send(message))
   }
   send (message) {
-    if(this._socket) {
+    if(this._peer) {
       this.clearQueue()
       this._send(message)
     }
@@ -37,14 +39,11 @@ class WsTransport extends AbstractTransport {
     }
   }
   _send (message) {
-    this._socket.send(JSON.stringify(message))
+    this._peer.send(JSON.stringify(message))
   }
   message (data) {
     this._callback(JSON.parse(data))
   }
-  close () {
-    this._socket.close()
-  }
 }
 
-module.exports = { WsTransport }
+module.exports = { PeerTransport }
