@@ -14,7 +14,7 @@ class WsTransport extends AbstractTransport {
   start() {
     const socket = new WebSocket(this._url)
     socket.onopen = () => this.open(socket)
-    socket.onmessage = data => this.message(data)
+    socket.onmessage = event => this.message(event.data)
   }
   open(socket) {
     this._socket = socket
