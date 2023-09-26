@@ -3,9 +3,7 @@
   "version": "0.2.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "node node_modules/jest/bin/jest.js"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ellementul/uee-ws-transport.git"
@@ -17,7 +15,7 @@
   },
   "homepage": "https://github.com/ellementul/uee-ws-transport#readme",
   "dependencies": {
-    "@ellementul/uee-core": "^1.2.2",
-    "peerjs": "^1.4.7"
+    "@ellementul/uee-core": "^1.5.1",
+    "peerjs": "^1.5.1"
   }
 }
