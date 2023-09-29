@@ -1,17 +1,16 @@
-const { AbstractTransport, Types } = require('@ellementul/uee-core')
+const { Types } = require('@ellementul/uee-core')
 const { Peer } = require('peerjs')
+const { BaseTransport } = require('./base')
+
 
 const KeyType = Types.Key.Def()
 
 const CREATED = "CreatedPeers"
 const OPENED = "OpenedPeers"
 
-class HostTransport extends AbstractTransport {
+class HostTransport extends BaseTransport {
   constructor (accessSpaces) {
     super()
-
-    this.open = () => { throw TypeError("You need setup callback via onOpen method!") }
-    this.inputQueue = []
 
     if(!Array.isArray(accessSpaces) || accessSpaces.length > 1)
       accessSpaces = ["client"]
@@ -80,15 +79,7 @@ class HostTransport extends AbstractTransport {
   }
 
   receive(message) {
-    if(typeof this._callback != "function")
-      this.inputQueue.push(message)
-    else
-      this._callback(message)
-  }
-
-  clearInputQueue() {
-    this.inputQueue.forEach(message => this._callback(message))
-    this.inputQueue = []
+    this.sendToProvider(message)
   }
 
   onOpen (openCallback) {
@@ -98,18 +89,11 @@ class HostTransport extends AbstractTransport {
     this.open = openCallback
   }
 
-  onRecieve (receiveCallback) {
-    if(typeof receiveCallback != "function")
-      throw new TypeError("Receive Callback isn't function!")
-
-    this._callback = receiveCallback
-    this.clearInputQueue()
-    console.log(receiveCallback)
-  }
-
   send (message) {
 
     if(this.state != OPENED) return
+
+    message = this.zip(message)
 
     for (const [ spaceName, { conns } ] of this.accessSpaces) {
       for (const [ _, conn] of conns) 

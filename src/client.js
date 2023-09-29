@@ -1,15 +1,12 @@
-const { AbstractTransport, Types } = require('@ellementul/uee-core')
 const { Peer } = require('peerjs')
+const { BaseTransport } = require('./base')
 
 const CREATED = "CreatedPeers"
 const CONNECTED = "ConnectedHOst"
 
-class ClientTransport extends AbstractTransport {
+class ClientTransport extends BaseTransport {
   constructor (peerId) {
     super()
-
-    this.open = () => { throw TypeError("You need setup callback via onOpen method!") }
-    this.inputQueue = []
 
     this.peer = new Peer
 
@@ -35,30 +32,9 @@ class ClientTransport extends AbstractTransport {
   }
 
   receive(message) {
-    if(typeof this._callback != "function")
-      this.inputQueue.push(message)
-    else
-      this._callback(message)
-  }
+    message = this.unzip(message)
 
-  clearInputQueue() {
-    this.inputQueue.forEach(message => this._callback(message))
-    this.inputQueue = []
-  }
-
-  onOpen (openCallback) {
-    if(typeof openCallback != "function")
-      throw new TypeError("Open Callback isn't function!")
-
-    this.open = openCallback
-  }
-
-  onRecieve (receiveCallback) {
-    if(typeof receiveCallback != "function")
-      throw new TypeError("Receive Callback isn't function!")
-
-    this._callback = receiveCallback
-    this.clearInputQueue()
+    this.sendToProvider(message)
   }
 
   send (message) {
