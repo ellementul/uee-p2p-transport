@@ -1,7 +1,8 @@
-const { PeerTransport } = require('./src/index.js')
+import test from 'ava'
 
-describe("Integration Test", () => {
-  test("Constructor", () => {
-    const transport = new PeerTransport
-  })
+import { HostTransport, ClientTransport } from './index.js'
+
+test("Testing export main classes", t => {
+  t.truthy(HostTransport)
+  t.truthy(ClientTransport)
 })

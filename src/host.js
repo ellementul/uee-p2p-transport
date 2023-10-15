@@ -1,6 +1,6 @@
-const { Types } = require('@ellementul/uee-core')
-const { Peer } = require('peerjs')
-const { BaseTransport } = require('./base')
+import { Types } from '@ellementul/uee-core'
+import Peer from 'peerjs'
+import { BaseTransport } from './base.js'
 
 
 const KeyType = Types.Key.Def()
@@ -102,4 +102,4 @@ class HostTransport extends BaseTransport {
   }
 }
 
-module.exports = { HostTransport }
+export { HostTransport }

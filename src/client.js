@@ -1,5 +1,5 @@
-const { Peer } = require('peerjs')
-const { BaseTransport } = require('./base')
+import Peer from 'peerjs'
+import { BaseTransport } from './base.js'
 
 const CREATED = "CreatedPeers"
 const CONNECTED = "ConnectedHOst"
@@ -45,4 +45,4 @@ class ClientTransport extends BaseTransport {
   }
 }
 
-module.exports = { ClientTransport }
+export { ClientTransport }

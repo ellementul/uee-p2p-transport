@@ -1,6 +1,6 @@
-const { AbstractTransport, Types } = require('@ellementul/uee-core')
-const { encode, decode } =  require('@msgpack/msgpack')
-const pako = require('pako')
+import { AbstractTransport } from '@ellementul/uee-core'
+import { encode, decode } from '@msgpack/msgpack'
+import { deflate, inflate } from 'pako'
 
 class BaseTransport extends AbstractTransport {
   constructor () {
@@ -40,13 +40,13 @@ class BaseTransport extends AbstractTransport {
 
   zip(data) {
     data = encode(data)
-    return pako.deflate(data)
+    return deflate(data)
   }
 
   unzip(compressed) {
-    const data = pako.inflate(compressed)
+    const data = inflate(compressed)
     return decode(data)
   }
 }
 
-module.exports = { BaseTransport }
+export { BaseTransport }
